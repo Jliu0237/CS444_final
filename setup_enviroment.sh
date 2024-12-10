@@ -1,10 +1,10 @@
 # System Update and Dependencies
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y build-essential python3-dev git wget
+sudo apt-get install -y build-essential python3-dev git wget unzip
 
 # Create and Activate Conda Environment
-conda create -n cs444_final python=3.8 -y
-conda activate cs444_final
+conda create -n fashion python=3.8 -y
+conda activate fashion
 
 # Install PyTorch and Core Libraries
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia -y
@@ -40,9 +40,13 @@ pip install opencv-python \
 mkdir -p data
 cd data
 
-# Create Kaggle Directory (you'll need to manually add kaggle.json later)
+# Create Kaggle Directory
 mkdir -p ~/.kaggle
 chmod 600 ~/.kaggle/kaggle.json
+
+# Download iMaterialist Fashion Dataset
+kaggle competitions download -c imaterialist-fashion-2019-FGVC6
+unzip imaterialist-fashion-2019-FGVC6.zip
 
 # Verify Installation
 python -c "import torch; print('PyTorch Version:', torch.__version__)"
@@ -50,7 +54,14 @@ python -c "import torch; print('CUDA Available:', torch.cuda.is_available())"
 python -c "import detectron2; print('Detectron2 Available')"
 python -c "import albumentations; print('Albumentations Version:', albumentations.__version__)"
 
-echo "Installation complete! Remember to:"
-echo "1. Add your kaggle.json to ~/.kaggle/"
-echo "2. Download the specific competition dataset using: kaggle competitions download -c [competition-name]"
-echo "3. Download the Fashionpedia dataset from the official source"
+echo "Installation complete! Important next steps:"
+echo "1. Before running the kaggle download command, make sure to:"
+echo "   - Create a Kaggle account if you haven't"
+echo "   - Go to kaggle.com -> Your Account -> Create New API Token"
+echo "   - Download the kaggle.json file"
+echo "   - Move it to ~/.kaggle/kaggle.json"
+echo "2. The dataset includes:"
+echo "   - train.csv: training annotations"
+echo "   - train/: directory containing training images"
+echo "   - test/: directory containing test images"
+echo "   - sample_submission.csv: sample submission file"
